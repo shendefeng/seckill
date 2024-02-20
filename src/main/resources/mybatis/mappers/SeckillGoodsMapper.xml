@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yolopluto.seckill.mapper.SeckillGoodsMapper">
+    <resultMap id="BaseResultMap" type="top.yolopluto.seckill.entity.SeckillGoods">
+        <id column="id" property="id" />
+        <result column="goods_id" property="goodsId" />
+        <result column="seckill_price" property="seckillPrice" />
+        <result column="stock_count" property="stockCount" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+    </resultMap>
+    <select id="selectByGoodsId" resultType="top.yolopluto.seckill.entity.SeckillGoods">
+        SELECT
+            sg.id,
+            sg.goods_id,
+            sg.seckill_price,
+            sg.stock_count,
+            sg.start_date,
+            sg.end_date
+        FROM
+            t_seckill_goods sg
+        WHERE
+            sg.goods_id = #{goodsId}
+    </select>
+    <update id="reduceStock">
+        UPDATE
+            t_seckill_goods
+        SET
+            stock_count = stock_count - 1
+        WHERE
+            goods_id = #{goodsId}
+    </update>
+</mapper>

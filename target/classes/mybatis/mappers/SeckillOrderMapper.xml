@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.yolopluto.seckill.mapper.SeckillOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="top.yolopluto.seckill.entity.SeckillOrder">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="order_id" property="orderId" />
+        <result column="goods_id" property="goodsId" />
+    </resultMap>
+    <select id="selectByUserIdAndGoodsId" resultType="top.yolopluto.seckill.entity.SeckillOrder">
+        SELECT
+            so.id,
+            so.user_id,
+            so.order_id,
+            so.goods_id
+        FROM
+            t_seckill_order so
+        WHERE
+            so.user_id = #{userId}
+          AND so.goods_id = #{goodsId}
+    </select>
+    <insert id="insert">
+        INSERT INTO t_seckill_order (user_id, order_id, goods_id)
+        VALUES (#{userId}, #{orderId}, #{goodsId})
+    </insert>
+
+</mapper>
