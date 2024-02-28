@@ -13,5 +13,5 @@ import top.yolopluto.seckill.entity.SeckillGoods;
 public interface SeckillGoodsMapper {
     SeckillGoods selectByGoodsId(Long goodsID);
 
-    int reduceStock(Long goodsID);
+    boolean reduceStock(Long goodsID);
 }

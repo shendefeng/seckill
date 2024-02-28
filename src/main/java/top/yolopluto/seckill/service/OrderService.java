@@ -3,6 +3,7 @@ package top.yolopluto.seckill.service;
 import top.yolopluto.seckill.dto.GoodsDTO;
 import top.yolopluto.seckill.dto.UserDTO;
 import top.yolopluto.seckill.entity.Order;
+import top.yolopluto.seckill.vo.OrderDeatilVo;
 
 /**
  * @author: yolopluto
@@ -18,4 +19,6 @@ public interface OrderService {
      * @return
      */
     Order seckill(UserDTO user, GoodsDTO goods);
+
+    OrderDeatilVo detail(Long orderId);
 }

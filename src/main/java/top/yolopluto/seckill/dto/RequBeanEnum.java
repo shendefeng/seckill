@@ -20,9 +20,12 @@ public enum RequBeanEnum {
     LOGIN_ERROR(500210, "用户名或密码不能为空"),
     MOBILE_ERROR(500211, "手机号格式错误"),
     BIND_ERROR(500212, "参数校验异常"),
+    SESSION_ERROR(500215, "用户不存在"),
     // 秒杀模块 5005XX
     EMPTY_STOCK(500500, "库存不足"),
     REPEAT_ERROR(500501, "该商品没人限购一件"),
+    //订单模块5003xx
+    ORDER_NOT_EXIST(500300, "订单不存在"),
     ;
     private final Integer code;
     private final String msg;

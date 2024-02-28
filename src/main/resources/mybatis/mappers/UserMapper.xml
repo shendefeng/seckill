@@ -6,4 +6,16 @@
     <select id="selectById" resultType="top.yolopluto.seckill.entity.User">
         select * from t_user where id = #{mobile}
     </select>
+<!--    批量插入用户数据-->
+    <insert id = "insertUsers" parameterType="java.util.List">
+        insert into t_user(id, nickname, salt, password, create_time, login_count)
+        values
+        <foreach collection="list"  item="user" separator=",">
+            (#{user.id}, #{user.nickname}, #{user.salt}, #{user.password}, #{user.createTime}, #{user.loginCount})
+        </foreach>
+    </insert>
+<!--    读取全部用户数据-->
+    <select id = "list" resultType="top.yolopluto.seckill.entity.User">
+        select * from t_user
+    </select>
 </mapper>

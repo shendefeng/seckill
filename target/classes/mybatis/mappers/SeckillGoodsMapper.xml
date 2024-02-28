@@ -24,12 +24,13 @@
         WHERE
             sg.goods_id = #{goodsId}
     </select>
+<!--   用count > 0 这个条件来加锁-->
     <update id="reduceStock">
         UPDATE
             t_seckill_goods
         SET
             stock_count = stock_count - 1
         WHERE
-            goods_id = #{goodsId}
+            goods_id = #{goodsId} AND stock_count > 0
     </update>
 </mapper>

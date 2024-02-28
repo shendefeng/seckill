@@ -21,4 +21,13 @@
         VALUES
             (#{userId}, #{goodsId}, #{deliveryAddrId}, #{goodsName}, #{goodsCount}, #{goodsPrice}, #{orderChannel}, #{status}, #{createDate})
     </insert>
+<!--    根据订单id查询订单信息-->
+    <select id = "selectById" resultType="top.yolopluto.seckill.entity.Order">
+        SELECT
+            *
+        FROM
+            t_order o
+        WHERE
+            id = #{orderId}
+    </select>
 </mapper>

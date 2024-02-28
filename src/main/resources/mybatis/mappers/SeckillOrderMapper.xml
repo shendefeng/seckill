@@ -21,7 +21,7 @@
             so.user_id = #{userId}
           AND so.goods_id = #{goodsId}
     </select>
-    <insert id="insert">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO t_seckill_order (user_id, order_id, goods_id)
         VALUES (#{userId}, #{orderId}, #{goodsId})
     </insert>

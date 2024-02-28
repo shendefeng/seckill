@@ -34,10 +34,10 @@ public class LoginController {
         return "login";
     }
     @SneakyThrows
-    @PostMapping("/doLogin")
+    @RequestMapping(value = "/doLogin", method = RequestMethod.POST)
     @ResponseBody
     public RequBean doLogin(@Valid LoginFormDTO loginFormDTO, HttpServletRequest request, HttpServletResponse response) {
-        log.info("用户登录信息: {}", loginFormDTO);
+//        log.info("用户登录信息: {}", loginFormDTO);
         return userService.doLogin(loginFormDTO, request, response);
     }
 }

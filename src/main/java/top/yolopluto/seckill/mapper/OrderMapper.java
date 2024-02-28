@@ -12,4 +12,6 @@ import top.yolopluto.seckill.entity.Order;
 @Mapper
 public interface OrderMapper {
     int insert(Order order);
+
+    Order selectById(Long orderId);
 }

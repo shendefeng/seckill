@@ -12,5 +12,5 @@ public interface SeckillGoodsService {
 
     SeckillGoods selectByGoodsId(Long goodsID);
 
-    int reduceStock(Long goodsID);
+    boolean reduceStock(Long goodsID);
 }

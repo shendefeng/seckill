@@ -22,7 +22,7 @@ public class SeckillGoodsServiceImpl implements SeckillGoodsService {
     }
 
     @Override
-    public int reduceStock(Long goodsID) {
+    public boolean reduceStock(Long goodsID) {
         return seckillGoodsMapper.reduceStock(goodsID);
     }
 }

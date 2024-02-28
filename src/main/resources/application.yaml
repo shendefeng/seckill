@@ -1,14 +1,17 @@
 server:
+  # 端口
   port: 8888
 spring:
   application:
     name: seckill
+  # 数据库配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
     username: root
     password: 1234
+  # thymeleaf 渲染
   thymeleaf:
     enabled: true
     cache: false
@@ -18,18 +21,21 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     mode: HTML
+  # 静态资源处理
   web:
     resources:
       chain:
         cache: true
         enabled: true
         compressed: true
+      # 启动默认静态资源处理，默认启动
       add-mappings: true
       cache:
         cachecontrol:
           #缓存响应时间，单位秒
           max-age: 3600
       static-locations: classpath:/static/
+  # Redis 配置信息
   data:
     redis:
       host: 8.130.25.214

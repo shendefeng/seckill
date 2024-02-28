@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import top.yolopluto.seckill.entity.User;
 
+import java.util.List;
+
 /**
  * @author: yolopluto
  * @Date: created in 2024/2/11 16:30
@@ -20,4 +22,8 @@ public interface UserMapper {
      */
 
     public User selectById(String mobile);
+
+    public int insertUsers(List<User> users);
+
+    public List<User> list();
 }
