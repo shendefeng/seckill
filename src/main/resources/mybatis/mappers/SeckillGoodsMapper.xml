@@ -24,7 +24,7 @@
         WHERE
             sg.goods_id = #{goodsId}
     </select>
-<!--   用count > 0 这个条件来加锁-->
+<!--   用count > 0 这个条件来加锁, 不能用乐观锁来解决，乐观锁在高并发场景下不适用(频繁回滚)，ABA问题-->
     <update id="reduceStock">
         UPDATE
             t_seckill_goods

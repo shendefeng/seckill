@@ -12,4 +12,6 @@ public interface SeckillOrderService {
     SeckillOrder selectByUserIdAndGoodsId(Long userId, Long goodsId);
 
     int insert(SeckillOrder seckillOrder);
+
+    Long getSeckillResult(Long userId, Long goodsId);
 }

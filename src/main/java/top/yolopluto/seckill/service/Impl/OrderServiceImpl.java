@@ -21,6 +21,7 @@ import top.yolopluto.seckill.vo.OrderDeatilVo;
 
 import java.util.Date;
 
+import static top.yolopluto.seckill.utils.RedisConstants.IS_STOCK_EMPTY;
 import static top.yolopluto.seckill.utils.RedisConstants.ORDER_KEY;
 
 /**
@@ -47,10 +48,12 @@ public class OrderServiceImpl implements OrderService {
         Long goodsId = goods.getId();
         // 减库存: 秒杀表里的库存
         SeckillGoods seckillGoods = seckillGoodsService.selectByGoodsId(goodsId);
+        // 程序里面删掉一个库存
+        seckillGoods.setStockCount(seckillGoods.getStockCount() - 1);
         // 秒杀商品表删掉一个
-        boolean result= seckillGoodsService.reduceStock(goodsId);
-        if (!result) {
-            return null;
+        boolean result = seckillGoodsService.reduceStock(goodsId);
+        if(seckillGoods.getStockCount() < 1){
+            redisTemplate.opsForValue().set(IS_STOCK_EMPTY + goodsId, "0");
         }
         // 创建订单
         Order order = new Order();
