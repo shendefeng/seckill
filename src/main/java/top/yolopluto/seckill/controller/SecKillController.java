@@ -2,6 +2,7 @@ package top.yolopluto.seckill.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.util.concurrent.RateLimiter;
 import com.wf.captcha.ArithmeticCaptcha;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,6 +60,8 @@ public class SecKillController implements InitializingBean {
     private RedisScript<Long> script;
     @Resource
     private MQSender mqSender;
+//    //基于令牌桶算法的限流实现类
+//    RateLimiter rateLimiter = RateLimiter.create(10);
     /**
      * 内存标记, 减少空库存判断
      */
@@ -130,14 +133,16 @@ public class SecKillController implements InitializingBean {
      *
      * @throws Exception
      */
-    @AccessLimit(seconds = 5, maxCount = 5, needLogin = true)
+    @AccessLimit(seconds = 5, maxCount = 5)
     @RequestMapping(value = "/path", method = RequestMethod.GET)
     @ResponseBody
     public RequBean getPath(UserDTO user, Long goodsId, String captcha) {
         if (user == null) {
             return RequBean.error(RequBeanEnum.SESSION_ERROR);
         }
-
+//        if (!rateLimiter.tryAcquire(1000, TimeUnit.MILLISECONDS)) {
+//            return  RequBean.error(RequBeanEnum.ACCESS_LIMIT_REACHED);
+//        }
         // 检查验证码
         boolean check = orderService.checkCaptcha(user, goodsId, captcha);
         if(!check){

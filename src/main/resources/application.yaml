@@ -8,9 +8,9 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
-    username: root
-    password: 1234
+    url:
+    username:
+    password:
   # thymeleaf 渲染
   thymeleaf:
 #    enabled: true
@@ -38,9 +38,9 @@ spring:
   # Redis 配置信息
   data:
     redis:
-      host: 8.130.25.214
-      port: 6379
-      password: ldad379953104.
+      host:
+      port:
+      password:
       lettuce:
         pool:
           max-active: 10
@@ -52,11 +52,11 @@ spring:
     default-property-inclusion: non_null
   rabbitmq:
 #    服务器
-    host: 8.130.25.214
-    username: pluto
-    password: 123456
-    virtual-host: /
-    port: 5672
+    host:
+    username:
+    password:
+    virtual-host:
+    port:
     listener:
       simple:
         #消费者最小数量
