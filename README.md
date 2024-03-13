@@ -84,8 +84,8 @@ https://apifox.com/apidoc/shared-7d0cf69f-3a14-4b82-8832-6fba6181a964
 
 ## TODO
 
-支付服务
+- [ ] 支付服务
 
-分布式锁
+- [ ] 分布式锁
 
-分布式服务
+- [ ] 分布式服务
