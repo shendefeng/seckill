@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Mapper
 public interface GoodsMapper {
-    public List<GoodsDTO> findGoodsList();
+    List<GoodsDTO> findGoodsList();
 
     GoodsDTO findGoodsById(Long goodsId);
 }
