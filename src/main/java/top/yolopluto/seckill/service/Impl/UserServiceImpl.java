@@ -9,6 +9,7 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import top.yolopluto.seckill.dto.LoginFormDTO;
@@ -39,6 +40,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private RedisTemplate redisTemplate;
     @Override
     public RequBean doLogin(LoginFormDTO loginDTO, HttpServletRequest request, HttpServletResponse response) throws JsonProcessingException {
         String mobile = loginDTO.getMobile();
@@ -61,24 +64,24 @@ public class UserServiceImpl implements UserService {
         // 需要对登录的用户信息进行状态保存
         String token = UUID.randomUUID().toString(true);
         String tokenKey = LOGIN_USER_KEY + token;
-        // 把UserDTO存入Redis
+        // 把UserDTO存入Redis中
         UserDTO userDTO = BeanUtil.copyProperties(user, UserDTO.class);
-        String userJson = new ObjectMapper().writeValueAsString(userDTO);
-        stringRedisTemplate.opsForValue().set(tokenKey, userJson);
-        stringRedisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
+//        String userJson = new ObjectMapper().writeValueAsString(userDTO);
+//        stringRedisTemplate.opsForValue().set(tokenKey, userJson);
+        redisTemplate.opsForValue().set(tokenKey, userDTO);
+        redisTemplate.expire(tokenKey, LOGIN_USER_TTL, TimeUnit.MINUTES);
         // 把信息加入到Cookie中
         CookieUtil.setCookie(request, response, "userTicket", token);
         return RequBean.success(token);
     }
-
-    @SneakyThrows
     @Override
     public UserDTO getUserByCooike(String userTicket, HttpServletRequest request, HttpServletResponse response) {
         if(StrUtil.isBlank(userTicket)) {
             return null;
         }
-        String storedJson = stringRedisTemplate.opsForValue().get(LOGIN_USER_KEY + userTicket);
-        UserDTO user = new ObjectMapper().readValue(storedJson, UserDTO.class);
+        UserDTO user = (UserDTO) redisTemplate.opsForValue().get(LOGIN_USER_KEY + userTicket);
+//        String storedJson = stringRedisTemplate.opsForValue().get(LOGIN_USER_KEY + userTicket);
+//        UserDTO user = new ObjectMapper().readValue(storedJson, UserDTO.class);
         if(user != null) {
             CookieUtil.setCookie(request, response, "userTicket", userTicket);
         }

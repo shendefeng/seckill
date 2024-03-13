@@ -1,5 +1,6 @@
 package top.yolopluto.seckill.service.Impl;
 
+import cn.hutool.core.util.StrUtil;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,14 @@ import top.yolopluto.seckill.service.GoodsService;
 import top.yolopluto.seckill.service.OrderService;
 import top.yolopluto.seckill.service.SeckillGoodsService;
 import top.yolopluto.seckill.service.SeckillOrderService;
+import top.yolopluto.seckill.utils.MD5Utils;
+import top.yolopluto.seckill.utils.UUIDUtil;
 import top.yolopluto.seckill.vo.OrderDeatilVo;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
-import static top.yolopluto.seckill.utils.RedisConstants.IS_STOCK_EMPTY;
-import static top.yolopluto.seckill.utils.RedisConstants.ORDER_KEY;
+import static top.yolopluto.seckill.utils.RedisConstants.*;
 
 /**
  * @author: yolopluto
@@ -54,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
         boolean result = seckillGoodsService.reduceStock(goodsId);
         if(seckillGoods.getStockCount() < 1){
             redisTemplate.opsForValue().set(IS_STOCK_EMPTY + goodsId, "0");
+            return null;
         }
         // 创建订单
         Order order = new Order();
@@ -93,4 +97,53 @@ public class OrderServiceImpl implements OrderService {
 
 
     }
+
+    /**
+     * 获取秒杀地址
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public String createPath(UserDTO user, Long goodsId) {
+        String str = MD5Utils.md5(UUIDUtil.uuid() + "123456");
+        // 随机生成的秒杀地址存入redis, 带失效时间
+        redisTemplate.opsForValue().set(SECKILL_PATH + user.getId() + ":" + goodsId, str, 1, TimeUnit.MINUTES);
+        return str;
+    }
+
+    /**
+     * 检查秒杀地址
+     * @param path
+     * @param user
+     * @param goodsId
+     * @return
+     */
+    @Override
+    public boolean checkPath(String path, UserDTO user, Long goodsId) {
+        if(user == null || goodsId < 0 || path == null){
+            return false;
+        }
+        String redisPath = (String) redisTemplate.opsForValue().get(SECKILL_PATH + user.getId() + ":" + goodsId);
+
+        return path.equals(redisPath);
+    }
+
+    /**
+     * 方法校验
+     * @param user
+     * @param goodsId
+     * @param captcha
+     * @return
+     */
+    @Override
+    public boolean checkCaptcha(UserDTO user, Long goodsId, String captcha) {
+        if(StrUtil.isBlank(captcha) || user == null || goodsId < 0){
+            return false;
+        }
+        String redisCaptcha = (String) redisTemplate.opsForValue().get(VERIFY_CODE + user.getId() + ":" + goodsId);
+
+        return captcha.equals(redisCaptcha);
+    }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.web.servlet.JakartaServletWebApplication;
+import org.thymeleaf.util.StringUtils;
 import top.yolopluto.seckill.dto.GoodsDTO;
 import top.yolopluto.seckill.dto.RequBean;
 import top.yolopluto.seckill.dto.UserDTO;
@@ -57,8 +58,8 @@ public class GoodsController {
 //        }
         // 页面的缓存
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        String html = (String) valueOperations.get("goodsList");
-        if(!StrUtil.isEmptyIfStr(html)){
+        String html = (String) valueOperations.get("goodsList:");
+        if(!StringUtils.isEmpty(html)){
             return html;
         }
         // 需要找到秒杀商品的信息列表
@@ -69,8 +70,8 @@ public class GoodsController {
         WebContext webContext = new WebContext(jakartaServletWebApplication.buildExchange(request, response), request.getLocale(), model.asMap());
 
         html = thymeleafViewResolver.getTemplateEngine().process("goodsList", webContext);
-        if(!StrUtil.isEmptyIfStr(html)){
-            valueOperations.set("goodsList", html, 60, TimeUnit.SECONDS);
+        if(!StringUtils.isEmpty(html)){
+            valueOperations.set("goodsList:", html, 60, TimeUnit.SECONDS);
         }
         return html;
     }
@@ -79,9 +80,9 @@ public class GoodsController {
     public RequBean toDetail(UserDTO user, @PathVariable Long goodsId){
 //        ValueOperations valueOperations = redisTemplate.opsForValue();
 
-        GoodsDTO goodsDTO = goodsService.findGoodsById(goodsId);
-        Date startDate = goodsDTO.getStartDate();
-        Date endDate = goodsDTO.getEndDate();
+        GoodsDTO goodsVo = goodsService.findGoodsById(goodsId);
+        Date startDate = goodsVo.getStartDate();
+        Date endDate = goodsVo.getEndDate();
         Date nowDate = new Date();
         //秒杀状态
         int seckillStatus = 0;
@@ -100,11 +101,11 @@ public class GoodsController {
             seckillStatus = 1;
             remainSeconds = 0;
         }
-//        model.addAttribute("goods", goodsDTO);
+//        model.addAttribute("goods", goodsVo);
 //        model.addAttribute("remainSeconds", remainSeconds);
 //        model.addAttribute("seckillStatus", seckillStatus);
         GoodsDetailVo detailVo = new GoodsDetailVo();
-        detailVo.setGoodsVo(goodsDTO);
+        detailVo.setGoodsVo(goodsVo);
         detailVo.setUser(user);
         detailVo.setSecKillStatus(seckillStatus);
         detailVo.setRemainSeconds(remainSeconds);

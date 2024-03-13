@@ -110,7 +110,7 @@
             $("#goodsPrice").text(order.goodsPrice);
             $("#createDate").text(new Date(order.createDate).format("yyyy-MM-dd HH:mm:ss"));
             var status = order.status;
-            var statusText = "";
+            var statusText = ""
             switch (status) {
                 case 0:
                     statusText = "未支付";

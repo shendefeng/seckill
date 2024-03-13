@@ -21,4 +21,10 @@ public interface OrderService {
     Order seckill(UserDTO user, GoodsDTO goods);
 
     OrderDeatilVo detail(Long orderId);
+
+    String createPath(UserDTO user, Long goodsId);
+
+    boolean checkPath(String path, UserDTO user, Long goodsId);
+
+    boolean checkCaptcha(UserDTO user, Long goodsId, String captcha);
 }

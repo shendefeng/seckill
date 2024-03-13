@@ -13,14 +13,14 @@ spring:
     password: 1234
   # thymeleaf 渲染
   thymeleaf:
-    enabled: true
+#    enabled: true
     cache: false
-    servlet:
-      content-type: text/html
-    encoding: UTF-8
-    prefix: classpath:/templates/
-    suffix: .html
-    mode: HTML
+#    servlet:
+#      content-type: text/html
+#    encoding: UTF-8
+#    prefix: classpath:/templates/
+#    suffix: .html
+#    mode: HTML
   # 静态资源处理
   web:
     resources:

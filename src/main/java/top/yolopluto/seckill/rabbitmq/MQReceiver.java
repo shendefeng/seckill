@@ -1,5 +1,6 @@
 package top.yolopluto.seckill.rabbitmq;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
@@ -13,6 +14,7 @@ import top.yolopluto.seckill.dto.UserDTO;
 import top.yolopluto.seckill.entity.SeckillOrder;
 import top.yolopluto.seckill.service.GoodsService;
 import top.yolopluto.seckill.service.OrderService;
+import top.yolopluto.seckill.utils.JsonUtil;
 
 import static top.yolopluto.seckill.config.RabbitMQTopicConfig.QUEUE;
 import static top.yolopluto.seckill.utils.RedisConstants.ORDER_KEY;
@@ -37,9 +39,9 @@ public class MQReceiver {
      * @param message
      */
     @RabbitListener(queues = QUEUE)
-    public void receive(String message) throws JsonProcessingException {
+    public void receive(String message) {
        log.info("receive message: " + message);
-        SeckillMessage seckillMessage = new ObjectMapper().readValue(message, SeckillMessage.class);
+        SeckillMessage seckillMessage = JsonUtil.jsonStr2Object(message, SeckillMessage.class);
         Long goodsId = seckillMessage.getGoodsId();
         UserDTO user = seckillMessage.getUserDTO();
         GoodsDTO goodsDTO = goodsService.findGoodsById(goodsId);
