@@ -92,10 +92,15 @@ https://apifox.com/apidoc/shared-7d0cf69f-3a14-4b82-8832-6fba6181a964
 
 ## 参考资料
 https://github.com/qiurunze123/miaosha/blob/master/old.md
+
 https://github.com/qiurunze123/miaosha/blob/master/docs/code-solve.md
+
 https://github.com/zaiyunduan123/springboot-seckill
+
 https://github.com/Goinggoinggoing/seckill-study
+
 https://github.com/Grootzz/seckill/tree/master
+
 https://osjobs.net/system/posts/spike-system/
 
 
