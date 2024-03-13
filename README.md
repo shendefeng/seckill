@@ -11,7 +11,7 @@
 
 ![image](https://raw.githubusercontent.com/shendefeng/Picture/main/img/202403132105984.png?token=AODF2376ZSTBXBUWTKLAYK3F6GSOG)
 
-符合数据库三大范式：字段原子性、非主键列依赖主键
+符合数据库三大范式：字段原子性、非主键列完全依赖主键列
 
 ## 用户登录模块
 
