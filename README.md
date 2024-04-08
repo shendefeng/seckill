@@ -9,7 +9,7 @@
 
 ## 数据库设计
 
-![image](https://raw.githubusercontent.com/shendefeng/Picture/main/img/A5B94DA2096F6F7125447963E76073AD.png?token=AODF237EFHNQIWRJVM5CGBDF6O44U)
+![image](https://github.com/shendefeng/Picture/main/img/A5B94DA2096F6F7125447963E76073AD.png)
 
 符合数据库三大范式：字段原子性、非主键列完全依赖主键列
 
